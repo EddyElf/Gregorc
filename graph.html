@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <canvas id="graph-canvas" width="500" height="700" style="background-color: whitesmoke;"></canvas>
+
+  <div style="position: absolute; top: 470px; left: 170px;">
+    <button id="pdf-btn" style="width: 150px; height: 50px; background-color: black; color: #b7c916; font-size: 16px; font-weight: bold; border: 2px solid #b7c916;">CLICK FOR PDF</button>
+  </div>
+
+  <script>
+    window.onload = function() {
+      const params = new URLSearchParams(window.location.search);
+      const categoryScores = {
+        AR: Math.min(parseInt(params.get('AR')), 20),
+        CR: Math.min(parseInt(params.get('CR')), 20),
+        CS: Math.min(parseInt(params.get('CS')), 20),
+        AS: Math.min(parseInt(params.get('AS')), 20)
+      };
+
+      function drawGraph() {
+        const canvas = document.getElementById('graph-canvas');
+        const ctx = canvas.getContext('2d');
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.font = '18px Arial';
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 3;
+        const scale = 9; // Adjust scale
+        const maxOffset = 20 * scale;
+
+        // Draw axes
+        ctx.beginPath();
+        ctx.moveTo(centerX - maxOffset, centerY);
+        ctx.lineTo(centerX + maxOffset, centerY);
+        ctx.moveTo(centerX, centerY - maxOffset);
+        ctx.lineTo(centerX, centerY + maxOffset);
+        ctx.stroke();
+
+        // Draw tick marks
+        const ticks = [5, 10, 15];
+        ticks.forEach(tick => {
+          const offset = tick * scale;
+          // Positive X and Y ticks
+          ctx.beginPath();
+          ctx.moveTo(centerX + offset, centerY - 5);
+          ctx.lineTo(centerX + offset, centerY + 5);
+          ctx.moveTo(centerX - 5, centerY - offset);
+          ctx.lineTo(centerX + 5, centerY - offset);
+          ctx.stroke();
+          // Negative X and Y ticks
+          ctx.beginPath();
+          ctx.moveTo(centerX - offset, centerY - 5);
+          ctx.lineTo(centerX - offset, centerY + 5);
+          ctx.moveTo(centerX - 5, centerY + offset);
+          ctx.lineTo(centerX + 5, centerY + offset);
+          ctx.stroke();
+        });
+
+        // Draw arrow tips at 20
+        const arrowSize = 10;
+        const arrowOffset = 20 * scale;
+        ctx.beginPath();
+        // Positive X arrow
+        ctx.moveTo(centerX + arrowOffset, centerY);
+        ctx.lineTo(centerX + arrowOffset - arrowSize, centerY - arrowSize / 2);
+        ctx.moveTo(centerX + arrowOffset, centerY);
+        ctx.lineTo(centerX + arrowOffset - arrowSize, centerY + arrowSize / 2);
+        // Negative X arrow
+        ctx.moveTo(centerX - arrowOffset, centerY);
+        ctx.lineTo(centerX - arrowOffset + arrowSize, centerY - arrowSize / 2);
+        ctx.moveTo(centerX - arrowOffset, centerY);
+        ctx.lineTo(centerX - arrowOffset + arrowSize, centerY + arrowSize / 2);
+        // Positive Y arrow
+        ctx.moveTo(centerX, centerY - arrowOffset);
+        ctx.lineTo(centerX - arrowSize / 2, centerY - arrowOffset + arrowSize);
+        ctx.moveTo(centerX, centerY - arrowOffset);
+        ctx.lineTo(centerX + arrowSize / 2, centerY - arrowOffset + arrowSize);
+        // Negative Y arrow
+        ctx.moveTo(centerX, centerY + arrowOffset);
+        ctx.lineTo(centerX - arrowSize / 2, centerY + arrowOffset - arrowSize);
+        ctx.moveTo(centerX, centerY + arrowOffset);
+        ctx.lineTo(centerX + arrowSize / 2, centerY + arrowOffset - arrowSize);
+        ctx.stroke();
+
+        // Draw labels
+        ctx.fillText('Concrete', centerX - 33, 30);
+        ctx.fillText('Sequential', centerX - 40, 45);
+        ctx.fillText('Abstract', canvas.width - 80, centerY - 25);
+        ctx.fillText('Sequential', canvas.width - 90, centerY - 10);
+        ctx.fillText('Abstract', centerX - 37, canvas.height - 270);
+        ctx.fillText('Random', centerX - 37, canvas.height - 255);
+        ctx.fillText('Concrete', 10, centerY - 25);
+        ctx.fillText('Random', 12, centerY - 10);
+
+        const orderedPairs = [
+          { x: 0, y: categoryScores.CS * scale },
+          { x: categoryScores.AS * scale, y: 0 },
+          { x: 0, y: -categoryScores.AR * scale },
+          { x: -categoryScores.CR * scale, y: 0 }
+        ];
+
+        ctx.fillStyle = 'green';
+        orderedPairs.forEach(point => {
+          ctx.beginPath();
+          ctx.arc(centerX + point.x, centerY - point.y, 5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        ctx.strokeStyle = 'green';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        orderedPairs.forEach((point, index) => {
+          const nextPoint = orderedPairs[(index + 1) % orderedPairs.length];
+          ctx.moveTo(centerX + point.x, centerY - point.y);
+          ctx.lineTo(centerX + nextPoint.x, centerY - nextPoint.y);
+        });
+        ctx.stroke();
+      }
+
+      drawGraph();
+
+      document.getElementById('pdf-btn').addEventListener('click', () => {
+      const canvas = document.getElementById('graph-canvas');
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+
+    // Set font and add "Congratulations" text in the left column
+    pdf.setFont('Georgia', 'bold');
+
+    // Retrieve the user name from localStorage
+    const userName = localStorage.getItem('userName');
+
+    // If a name is found, use it; otherwise, use a default message
+    const congratulationsMessage = userName ? `Congratulations ${userName}!` : "Congratulations!";
+
+    // Create PDF
+    pdf.setFontSize(23);
+    pdf.text(
+      congratulationsMessage,  // Insert the dynamic message
+      15, // X position: left column
+      25  // Y position: slightly taller placement
+    );
+
+    // Set the remaining text in size 18
+    pdf.setFontSize(20);
+    pdf.text(
+      "\nWhile you can learn using any method you want, according to the answers you chose, the graph shows if there is a certain style you might prefer over the others.",
+      15, // X position: left column (same as the first text)
+      25 + 10, // Y position adjusted for the next part of the text (slightly lower)
+      { maxWidth: 80 } // Narrower width for better fit, prevents text from going too far right
+    );
+
+
+
+      // Add graph image in the right column (unchanged)
+      const imgWidth = 90;
+      const imgHeight = (canvas.height / canvas.width) * imgWidth; // Maintain aspect ratio
+      pdf.addImage(
+        imgData, 'PNG',
+        110, // X position: start of the right column
+        20,  // Aligns with the "Congratulations" text
+        imgWidth, 
+        imgHeight
+      );
+
+      // Adjust paragraphs to start higher up
+      let y = 110; // Moved up approximately 9 lines
+      pdf.setFontSize(12);
+
+      const headers = [
+        { header: "Abstract Sequential", paragraph: "Abstract Sequential learners enjoy understanding ideas and concepts. They like to think about theories and how things work in general. These kids are good at organizing their thoughts and prefer learning through explanations and reasoning. They might enjoy reading about how things happened in history or learning about science theories that explain how things in nature work." },
+        { header: "Concrete Sequential", paragraph: "Concrete Sequential learners like things that are clear and organized. They prefer to learn step-by-step, following a plan or order. These are the kids who do well when things are laid out in a structured way, like in a list or a schedule. They enjoy activities where they can see how things fit together logically, like solving math problems in a certain order or following instructions to build something." },
+        { header: "Abstract Random", paragraph: "Abstract Random learners are social and enjoy working with others. They like activities that involve feelings and emotions. These kids learn best when they can relate new information to their own experiences or discuss ideas with friends. They might enjoy projects where they can express themselves creatively or working in groups where they can share ideas and learn from each other." },
+        { header: "Concrete Random", paragraph: "Concrete Random learners are hands-on and like to try things out. They enjoy learning through practical experience and exploring new ideas. These are the kids who learn best by doing experiments, creating art, or building things with their hands. They like to see how things work in action and enjoy figuring out solutions to problems on their own." }
+      ];
+
+      headers.forEach(({ header, paragraph }) => {
+      pdf.setFont('Helvetica', 'bold'); // Use serif font for headers
+      pdf.setFontSize(16); // Adjust header font size here
+      pdf.text(header, 20, y); // Headers in bold
+      y += 10; // Add more space after the header
+
+      pdf.setFont('Helvetica', 'normal'); // Use serif font for paragraphs
+      pdf.setFontSize(12); // Adjust paragraph font size if needed
+      const paragraphHeight = pdf.getTextDimensions(paragraph, { maxWidth: 180 }).h; // Calculate paragraph height
+      pdf.text(paragraph, 10, y, { maxWidth: 180 }); // Paragraphs below headers
+      y += paragraphHeight + 10; // Add paragraph height + extra space
+    });
+
+
+      // Open the PDF in a new browser window
+      pdf.output('dataurlnewwindow');
+    });
+
+    };
+  </script>
+</body>
+</html>

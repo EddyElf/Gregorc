@@ -1,0 +1,139 @@
+{
+    "questions": [
+        {
+            "question": "Question 1",
+            "choices": [
+                { "word": "IMAGINATIVE", "category": "AR", "score": 1 },
+                { "word": "INVESTIGATIVE", "category": "CR", "score": 1 },
+                { "word": "REALISTIC", "category": "CS", "score": 1 },
+                { "word": "ANALYTICAL", "category": "AS", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 2",
+            "choices": [
+                { "word": "ORGANIZED", "category": "CS", "score": 1 },
+                { "word": "ADAPTABLE", "category": "AR", "score": 1 },
+                { "word": "CRITICAL", "category": "AS", "score": 1 },
+                { "word": "INQUISITIVE", "category": "CR", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 3",
+            "choices": [
+                { "word": "DEBATING", "category": "AS", "score": 1 },
+                { "word": "GETTING TO THE POINT", "category": "CS", "score": 1 },
+                { "word": "CREATING", "category": "CR", "score": 1 },
+                { "word": "RELATING", "category": "AR", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 4",
+            "choices": [
+                { "word": "PERSONAL", "category": "AR", "score": 1 },
+                { "word": "PRACTICAL", "category": "CS", "score": 1 },
+                { "word": "ACADEMIC", "category": "AS", "score": 1 },
+                { "word": "ADVENTUROUS", "category": "CR", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 5",
+            "choices": [
+                { "word": "PRECISE", "category": "CS", "score": 1 },
+                { "word": "FLEXIBLE", "category": "AR", "score": 1 },
+                { "word": "SYSTEMATIC", "category": "AS", "score": 1 },
+                { "word": "INVENTIVE", "category": "CR", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 6",
+            "choices": [
+                { "word": "SHARING", "category": "AR", "score": 1 },
+                { "word": "ORDERLY", "category": "CS", "score": 1 },
+                { "word": "SENSIBLE", "category": "AS", "score": 1 },
+                { "word": "INDEPENDENT", "category": "CR", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 7",
+            "choices": [
+                { "word": "COMPETITIVE", "category": "CR", "score": 1 },
+                { "word": "PERFECTIONIST", "category": "CS", "score": 1 },
+                { "word": "COOPERATIVE", "category": "AR", "score": 1 },
+                { "word": "LOGICAL", "category": "AS", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 8",
+            "choices": [
+                { "word": "INTELLECTUAL", "category": "AS", "score": 1 },
+                { "word": "SENSITIVE", "category": "AR", "score": 1 },
+                { "word": "HARDWORKING", "category": "CS", "score": 1 },
+                { "word": "RISK-TAKING", "category": "CR", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 9",
+            "choices": [
+                { "word": "READER", "category": "AS", "score": 1 },
+                { "word": "PEOPLE PERSON", "category": "AR", "score": 1 },
+                { "word": "PROBLEM SOLVER", "category": "CR", "score": 1 },
+                { "word": "PLANNER", "category": "CS", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 10",
+            "choices": [
+                { "word": "MEMORIZE", "category": "CS", "score": 1 },
+                { "word": "ASSOCIATE", "category": "AR", "score": 1 },
+                { "word": "THINK THROUGH", "category": "AS", "score": 1 },
+                { "word": "ORIGINATE", "category": "CR", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 11",
+            "choices": [
+                { "word": "CHANGER", "category": "CR", "score": 1 },
+                { "word": "JUDGER", "category": "AS", "score": 1 },
+                { "word": "SPONTANEOUS", "category": "AR", "score": 1 },
+                { "word": "LIKES DIRECTIONS", "category": "CS", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 12",
+            "choices": [
+                { "word": "COMMUNICATING", "category": "AR", "score": 1 },
+                { "word": "DISCOVERING", "category": "CR", "score": 1 },
+                { "word": "CAUTIOUS", "category": "CS", "score": 1 },
+                { "word": "REASONING", "category": "AS", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 13",
+            "choices": [
+                { "word": "CHALLENGING", "category": "CR", "score": 1 },
+                { "word": "PRACTICING", "category": "CS", "score": 1 },
+                { "word": "CARING", "category": "AR", "score": 1 },
+                { "word": "EXAMINING", "category": "AS", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 14",
+            "choices": [
+                { "word": "COMPLETING WORK", "category": "CS", "score": 1 },
+                { "word": "SEEING POSSIBILITIES", "category": "CR", "score": 1 },
+                { "word": "GAINING IDEAS", "category": "AS", "score": 1 },
+                { "word": "INTERPRETING", "category": "AR", "score": 1 }
+            ]
+        },
+        {
+            "question": "Question 15",
+            "choices": [
+                { "word": "DOING", "category": "CS", "score": 1 },
+                { "word": "FEELING", "category": "AR", "score": 1 },
+                { "word": "THINKING", "category": "AS", "score": 1 },
+                { "word": "EXPERIMENTING", "category": "CR", "score": 1 }
+            ]
+        }
+    ]
+}
